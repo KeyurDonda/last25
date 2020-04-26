@@ -1,0 +1,196 @@
+<!-- Keyur Coded -->
+
+<script type="text/javascript">
+
+    //activities
+                
+                function checkClick() {
+    
+                    var pageNumber = <%= @pagea.inspect%>
+                    var lastPageNumber = <%= @newCounta.inspect%>
+
+                    if(pageNumber == lastPageNumber) {
+                        var url = "";
+                        url = new URL("http://localhost:9292/users/1?activities_page="+pageNumber)
+                        return window.location.replace(url.href);    
+                    }
+
+                    pageNumber++;
+                    var url = "";
+                    url = new URL("http://localhost:9292/users/1?activities_page="+pageNumber)
+                    window.location.replace(url.href);
+                }
+
+                function checkClick1() {
+    
+                    var pageNumber1 = <%= @pagea.inspect%>
+                    if(pageNumber1 == 0) {
+                        backurl = new URL("http://localhost:9292/users/1?activities_page="+pageNumber1)
+                        return window.location.replace(backurl.href);
+                    }
+
+                    pageNumber1--;
+                    var backurl = "";
+                    backurl = new URL("http://localhost:9292/users/1?activities_page="+pageNumber1)
+                    window.location.replace(backurl.href);
+                }
+
+                function checkClick2() {
+
+                    var firsturl = "";
+                    firsturl = new URL("http://localhost:9292/users/1?activities_page=0")
+                    window.location.replace(firsturl.href);
+                }
+
+                function checkClick3() {
+                    var lastPageNumber = <%= @newCounta.inspect%>
+                    var lasturl = "";
+                    lasturl = new URL("http://localhost:9292/users/1?activities_page="+lastPageNumber)
+                    window.location.replace(lasturl.href);
+                }
+
+</script>
+
+<!-- Keyur Coded End -->
+
+<% title @user %>
+<% breadcrumb_add 'Users', users_path %>
+
+<div id="users">
+    <div class="row-fluid">
+        <div class="span10">
+            <div class="page-header">
+                <h1><%= @user.name %> <small><%= @user.email %></small></h1>
+            </div>
+        </div>
+
+        <div class="span2">
+            <% if can? :edit, User %>
+                <%= link_to edit_user_path( @user ), title: 'Edit',
+                            class: 'btn btn-small btn-warning' do %>
+                    <i class="icon-pencil"></i>
+                <% end %>
+            <% end %>
+            <% if can?( :delete, User ) %>
+                <%= link_to @user, title: 'Delete', method: :delete,
+                            class: 'btn btn-small btn-danger',
+                            data: { confirm: 'Are you sure?' } do %>
+                    <i class="icon-trash"></i>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <% if current_user.admin? || current_user == @user %>
+            <div class="span12">
+                <h2>Activities</h2>
+                <% if @activities.any? %>
+
+                <!-- Note 9 -->
+
+                    <ul class="notifications unstyled">
+                        <% @activities.each do |activity| %>
+                            <li>
+                                <%= render activity %>
+                            </li>
+                        <% end %>
+                    </ul>
+                <% else %>
+                    <p class="alert alert-info">
+                        <%= @user %> hasn't been up to anything.
+                    </p>
+                <% end %>
+
+<!-- Keyur Coded -->
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0" href = url.href id = "test" onclick = "checkClick2()"><<</button>
+
+                <button class= "button" id="btn" style= "background-color: #f0f0f0" href = url.href id = "test" onclick = "checkClick1()"><</button>
+
+                <div class= "button">
+                <%= @currentPageNoua.inspect %>
+                </div>
+                
+                <button class= "button" id="btn" style= "background-color: #f0f0f0"  id = "test" onclick = "checkClick()">></button>
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0"  id = "test" onclick = "checkClick3()">>></button>
+                
+                </br>
+
+                <hr>
+
+                <style>
+                .button{
+                    color: black;
+                    float: left;
+                    padding: 8px 12px;
+                    text-decoration: none;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                }
+                .button:hover:not(.active) {
+                    background-color: #006ccc;
+                }
+                </style>
+
+<!-- Keyur Coded End -->
+
+            </div>
+
+
+
+             <% if (roles = @user.roles).any? %>
+                <h2>Roles</h2>
+                <ul>
+                    <% roles.each do |role| %>
+                        <li><%= role.name %></li>
+                    <% end %>
+                </ul>
+            <% end %>
+
+                </br>
+
+                <hr>
+
+            <% if @scans.any? %>
+                <h2>Scans <small>[<%= @scans.size %>]</small></h2>
+                <ul class="unstyled">
+                    <% @scans.each do |scan| %>
+                        <li><%= link_to scan, scan_path( scan ) %></li>
+                    <% end %>
+                </ul>
+
+<!-- Keyur Coded -->
+
+                <div class= "button" style= "background-color: #e0e0e0">
+                    <a data-remote="true" href=" ?scan_page=1 "> << </a>
+                </div>
+
+                <div class= "button" style= "background-color: #f0f0f0">
+                    <a rel="prev" data-remote="true" href=" ?scan_page=<%=@negative%> "> < </a>
+                </div>
+
+                <div class= "button">
+                    <%= @currentPageNof.inspect %>
+                </div>
+
+                <div class= "button" style= "background-color: #f0f0f0">
+                    <a rel="next" data-remote="true" href=" ?scan_page=<%=@positive%> "> > </a>
+                </div>
+
+                <div class= "button" style= "background-color: #e0e0e0">
+                    <a data-remote="true" href=" ?scan_page=<%=@newCountFin1%>  "> >> </a>
+                </div>
+
+                </br>
+
+                <hr>
+
+<!-- Keyur Coded End -->
+
+            <% end %>
+        <% end %>
+    </div>
+
+</div>

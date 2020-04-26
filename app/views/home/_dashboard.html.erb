@@ -1,0 +1,265 @@
+<div class="row-fluid hidden-phone">
+    <div class="span12">
+        <h2>Issues Per Scan</h2>
+
+        <% if @issues_per_scan.size > 1 %>
+            <div id="trend-charts">
+            </div>
+
+            <script type="text/javascript">
+                $.jqplot('trend-charts', [<%= @issues_per_scan.values %>], {
+                    highlighter: {
+                        show: true,
+                        sizeAdjust: 7.5,
+                        tooltipAxes: 'y',
+                        formatString: '%s issues'
+                    },
+                    // Give the plot a title.
+                    // You can specify options for all axes on the plot at once with
+                    // the axesDefaults object.  Here, we're using a canvas renderer
+                    // to draw the axis label which allows rotated text.
+                    axesDefaults: {
+                        labelRenderer: $.jqplot.CanvasAxisLabelRenderer
+                    },
+                    // An axes object holds options for all axes.
+                    // Allowable axes are xaxis, x2axis, yaxis, y2axis, y3axis, ...
+                    // Up to 9 y axes are supported.
+                    axes: {
+                        // options for each axis are specified in seperate option objects.
+                        xaxis: {
+                            label: "Scans",
+                            // Turn off "padding".  This will allow data point to lie on the
+                            // edges of the grid.  Default padding is 1.2 and will keep all
+                            // points inside the bounds of the grid.
+                            pad: 0
+                        },
+                        yaxis: {
+                            label: "Issues",
+                            min:    0
+                        }
+                    },
+                    grid: {
+                        drawBorder: false,
+                        background: '#ffffff',
+                        shadow: false
+                    },
+                    seriesDefaults: {
+                        color: '#4572A7',
+                        smooth: true
+                    }
+                });
+
+//Keyur Coded
+
+    // issues
+
+                // In home controller at the end (Code 1)
+
+    //activities
+                
+                function checkClick() {
+    
+                    var pageNumber = <%= @pagea.inspect%>
+                    var lastPageNumber = <%= @newCounta.inspect%>
+
+                    if(pageNumber == lastPageNumber) {
+                        var url = "";
+                        url = new URL("http://localhost:9292/?activities_page="+pageNumber)
+                        return window.location.replace(url.href);    
+                    }
+
+                    pageNumber++;
+                    var url = "";
+                    url = new URL("http://localhost:9292/?activities_page="+pageNumber)
+                    window.location.replace(url.href);
+                }
+
+                function checkClick1() {
+    
+                    var pageNumber1 = <%= @pagea.inspect%>
+                    if(pageNumber1 == 0) {
+                        backurl = new URL("http://localhost:9292/?activities_page="+pageNumber1)
+                        return window.location.replace(backurl.href);
+                    }
+
+                    pageNumber1--;
+                    var backurl = "";
+                    backurl = new URL("http://localhost:9292/?activities_page="+pageNumber1)
+                    window.location.replace(backurl.href);
+                }
+
+                function checkClick2() {
+
+                    var firsturl = "";
+                    firsturl = new URL("http://localhost:9292/?activities_page=0")
+                    window.location.replace(firsturl.href);
+                }
+
+                function checkClick3() {
+                    var lastPageNumber = <%= @newCounta.inspect%>
+                    var lasturl = "";
+                    lasturl = new URL("http://localhost:9292/?activities_page="+lastPageNumber)
+                    window.location.replace(lasturl.href);
+                }
+
+    //notifications
+
+                function notificationClick() {
+    
+                    var pageNumber = <%= @pagen.inspect%>
+                    var lastPageNumber = <%= @newCountn.inspect%>
+
+                    if(pageNumber == lastPageNumber) {
+                        var url = "";
+                        url = new URL("http://localhost:9292/?notifications_page="+pageNumber)
+                        return window.location.replace(url.href);    
+                    }
+
+                    pageNumber++;
+                    var url = "";
+                    url = new URL("http://localhost:9292/?notifications_page="+pageNumber)
+                    window.location.replace(url.href);
+                }
+
+                function notificationClick1() {
+    
+                    var pageNumber1 = <%= @pagen.inspect%>
+                    if(pageNumber1 == 0) {
+                        backurl = new URL("http://localhost:9292/?notifications_page="+pageNumber1)
+                        return window.location.replace(backurl.href);
+                    }
+
+                    pageNumber1--;
+                    var backurl = "";
+                    backurl = new URL("http://localhost:9292/?notifications_page="+pageNumber1)
+                    window.location.replace(backurl.href);
+                }
+
+                function notificationClick2() {
+
+                    var firsturl = "";
+                    firsturl = new URL("http://localhost:9292/?notifications_page=0")
+                    window.location.replace(firsturl.href);
+                }
+
+                function notificationClick3() {
+                    var lastPageNumber = <%= @newCountn.inspect%>
+                    var lasturl = "";
+                    lasturl = new URL("http://localhost:9292/?notifications_page="+lastPageNumber)
+                    window.location.replace(lasturl.href);
+                }
+
+// Keyur Coded End
+
+            </script>
+
+        <% else %>
+            <p class="alert alert-info">
+                Not scan performed yet. Please start a few scans and check back later.
+            </p>
+        <% end %>
+
+<!-- Keyur Coded -->
+
+                <div class= "button" style= "background-color: #e0e0e0">
+                    <a data-remote="true" href="/?issues_per_scan_page=1&partial=true&render=issues_per_scan"> << </a>
+                </div>
+
+                <div class= "button" style= "background-color: #f0f0f0">
+                    <a rel="prev" data-remote="true" href="/?issues_per_scan_page=1&partial=true&render=issues_per_scan"> < </a>
+                </div>
+
+                <div class= "button">
+                    <%= @currentPageNoi.inspect %>
+                </div>
+
+                <div class= "button" style= "background-color: #f0f0f0">
+                    <a rel="next" data-remote="true" href="/?issues_per_scan_page=2&partial=true&render=issues_per_scan"> > </a>
+                </div>
+
+                <div class= "button" style= "background-color: #e0e0e0">
+                    <a data-remote="true" href="/?issues_per_scan_page=2&partial=true&render=issues_per_scan"> >> </a>
+                </div>
+
+                </br>
+
+<!-- Keyur Coded End -->
+
+    </div>  
+</div>
+
+<hr/>
+
+<div class="row-fluid hidden-phone">
+	<div class="span12">
+        <h2>Your Activities</h2>
+
+        <div id="activities">
+            <%= render 'activities' %>
+        </div>
+    </div>
+</div>
+
+<!-- Keyur Coded -->
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0" href = url.href id = "test" onclick = "checkClick2()"><<</button>
+
+                <button class= "button" id="btn" style= "background-color: #f0f0f0" href = url.href id = "test" onclick = "checkClick1()"><</button>
+
+                <div class= "button">
+                <%= @currentPageNoa.inspect %>
+                </div>
+                
+                <button class= "button" id="btn" style= "background-color: #f0f0f0"  id = "test" onclick = "checkClick()">></button>
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0"  id = "test" onclick = "checkClick3()">>></button>
+                
+                </br>
+
+                <hr>
+
+<!-- Keyur Coded End -->
+
+<div class="row-fluid hidden-phone">
+	<div class="span12">
+        <h2>Notifications</h2>
+
+        <div id="notifications">
+            <%= render 'notifications' %>
+        </div>
+    </div>
+</div>
+
+<!-- Keyur Coded -->
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0" href = url.href id = "test" onclick = "notificationClick2()"><<</button>
+
+                <button class= "button" id="btn" style= "background-color: #f0f0f0" href = url.href id = "test" onclick = "notificationClick1()"><</button>
+
+                <div class= "button">
+                <%= @currentPageNon.inspect %>
+                </div>
+
+                <button class= "button" id="btn" style= "background-color: #f0f0f0"  id = "test" onclick = "notificationClick()">></button>
+
+                <button class= "button" id="btn" style= "background-color: #e0e0e0"  id = "test" onclick = "notificationClick3()">>></button>
+                
+                </br>
+
+                <hr>
+
+        <style>
+        .button{
+            color: black;
+            float: left;
+            padding: 8px 12px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .button:hover:not(.active) {
+            background-color: #006ccc;
+        }
+        </style>
+
+<!-- Keyur Coded End -->

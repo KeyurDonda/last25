@@ -1,0 +1,39 @@
+<style>
+    .breadcrumbs{
+        -moz-border-bottom-colors:none;
+        -moz-border-image:none;
+        -moz-border-left-colors:none;
+        -moz-border-right-colors:none;
+        -moz-border-top-colors:none;
+        background-color: #FFFFFF;
+        background:none repeat scroll 0 0 #FFFFFF;
+        border-color:-moz-use-text-color #252525 #252525;
+        border-right:1px solid #252525;
+        border-style:none solid solid;
+        border-width:0 1px 1px;
+        margin-left:-1px;
+        margin-bottom:-1px
+    }
+</style>
+
+<% if breadcrumbs.any? %>
+    <nav class="breadcrumbs">
+        <div class="container">
+            <ul class="bread">
+                <li>
+                    <%= link_to root_path do %>
+                        <i class="icon-home icon-black"></i>
+                    <% end %>
+                </li>
+                <% breadcrumbs.each do |b| %>
+                <li>
+                    <%= link_to b[:title], b[:url] %>
+                </li>
+                <% end %>
+                <li>
+                    <%= link_to yield( :title ), request.path, class: 'active' %>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<% end %>

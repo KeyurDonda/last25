@@ -1,0 +1,157 @@
+<script>
+        //Finished
+                
+                function clickFin1() {
+    
+                    var pageNumber = <%= @scanpagef.inspect%>
+                    var lastPageNumber = <%= @newCountFin.inspect%>
+
+                    if(pageNumber == lastPageNumber) {
+                        var url = "";
+                        url = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page="+pageNumber)
+                        return window.location.replace(url.href);
+                    }
+
+                    pageNumber++;
+                    var url = "";
+                    url = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page="+pageNumber)
+                    window.location.replace(url.href);
+                }
+
+                function clickFin2() {
+    
+                    var pageNumber1 = <%= @scanpagef.inspect%>
+                    if(pageNumber1 == 0) {
+                        backurl = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page="+pageNumber1)
+                        return window.location.replace(backurl.href);
+                    }
+
+                    pageNumber1--;
+                    var backurl = "";
+                    backurl = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page="+pageNumber1)
+                    window.location.replace(backurl.href);
+                }
+
+                function clickFin3() {
+
+                    var firsturl = "";
+                    firsturl = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page=%201")
+                    window.location.replace(firsturl.href);
+                }
+
+                function clickFin4() {
+                    var lastPageNumber = <%= @newCountFin.inspect%>
+                    var lasturl = "";
+                    lasturl = new URL("http://localhost:9292/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page="+lastPageNumber)
+                    window.location.replace(lasturl.href);
+                }
+</script>
+
+<h2>Active
+    <small>[<%= @counts[:active]['total'] %>]</small>
+</h2>
+<%= render partial: 'table', locals: { scans: @active_scans, type: 'active' } %>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&active_page=1"> << </a>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="prev" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&active_page= <%= @negativeA %> "> < </a>
+        </div>
+
+        <div class= "button">
+            <%= @currentPageNoA.inspect %>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="next" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&active_page= <%= @positiveA %> "> > </a>
+        </div>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&active_page= <%= @newCountAct1 %> "> >> </a>
+        </div>
+
+        </br>
+                        
+        <hr>
+
+<h2>Finished
+    <small>[<%= @counts[:finished]['total'] %>]</small>
+</h2>
+<%= render partial: 'table', locals: { scans: @finished_scans, treat_as_running: false, type: 'finished' } %>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page=1"> << </a>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="prev" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page=<%=@negative%> "> < </a>
+        </div>
+
+        <div class= "button">
+            <%= @currentPageNof.inspect %>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="next" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page=<%=@positive%> "> > </a>
+        </div>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&finished_page=<%=@newCountFin1%> "> >> </a>
+        </div>
+
+        </br>
+
+        <hr>
+
+<h2>Suspended
+  <small>[<%= @counts[:suspended]['total'] %>]</small>
+</h2>
+<%= render partial: 'table', locals: { scans: @suspended_scans, treat_as_running: false, type: 'suspended' } %>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&suspended_page=1"> << </a>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="prev" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&suspended_page=<%=@negatives%> "> < </a>
+        </div>
+
+        <div class= "button">
+            <%= @currentPageNos.inspect %>
+        </div>
+
+        <div class= "button" style= "background-color: #f0f0f0">
+            <a rel="next" data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&suspended_page=<%=@positives%> "> > </a>
+        </div>
+
+        <div class= "button" style= "background-color: #e0e0e0">
+            <a data-remote="true" href="/scans.js?filter_active=yours&filter_finished=yours&filter_suspended=yours&suspended_page=<%=@newCountFins%> "> >> </a>
+        </div>
+
+        </br>
+                        
+        <hr>
+                    
+<style>
+
+.row-fluid .span9 {
+    width: 74.35897%;
+    *width: 74.30578%;
+    margin-left: 4.3%;
+    margin-top: -0.4%;
+}
+
+.button{
+    color: black;
+    float: left;
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.button:hover:not(.active) {
+    background-color: #006ccc;
+}
+</style>

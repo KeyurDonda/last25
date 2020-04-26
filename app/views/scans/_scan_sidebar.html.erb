@@ -1,0 +1,235 @@
+<ul class="nav nav-list">
+    <li class="nav-header">
+        Toggle visibility of
+    </li>
+
+    <li id="comments-link-container">
+        <a class="toggle-comments" data-toggle="collapse"
+           href="#comments">
+            <i class="icon-comments"></i>
+
+                    <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                          class="label hide total-comments-counter">
+                        <%= @scan.comments.size %>
+                    </span>
+
+                    <span title="The scan has new comments."
+                          class="hide label label-info new-comments-counter">
+                    </span>
+
+            Comments
+        </a>
+    </li>
+
+    <% if @scan.running? %>
+    <li id="toggle-statistics">
+        <a href="#statistics" data-toggle="collapse"
+           title="Toggle statistics visibility" role="button">
+            <i class="icon-list-alt"></i>
+
+            Statistics
+        </a>
+    </li>
+    <% end %>
+</ul>
+
+<% if @scan.root_revision.has_revisions? %>
+    <div id="revisions-nav-list">
+        <%= render 'revisions_nav_list' %>
+    </div>
+<% end %>
+
+<ul class="nav nav-list">
+    <li class="divider"></li>
+
+    <li class="nav-header">
+        Actions
+    </li>
+
+    <% if can?( :update, @scan ) %>
+        <li>
+            <a href="<%= edit_scan_path @scan %>"
+               title="Edit this scan's details"
+               role="button">
+                <i class="icon-edit"></i>
+                Full edit
+            </a>
+        </li>
+    <% end %>
+
+    <% if !@scan.suspended? && @scan.finished? && !@scan.overview? && @scan.report %>
+        <li id="download-report">
+            <i class="icon-download-alt"></i>
+            Download/Email report as:
+
+            <%
+               reports_links = reports_with_outfile.map do |shortname, (name, desc)|
+                   link_to name, report_scan_path( format: shortname ),
+                           rel: 'tooltip', title:  desc, data: { 'no-turbolink' => true }
+               end
+            %>
+
+            <ul class="nav nav-list">
+                <% reports_links.each do |l| %>
+                    <li>
+                    <button class="buttona">
+                        <%= l %>
+                    </button>
+                    <button href = "#" class=" downemailbtn" data-toggle="modal" data-target="#emailModal">
+                        Email
+                    </button>
+                    </li>
+
+                    <a href = "#" class=" downbtn" data-toggle="modal" data-target="#downloadModal">  </a>
+
+                    <style>
+                        .buttona:hover, .buttona:focus, .buttona:active, .buttona.active, .buttona.disabled, .buttona[disabled] {
+                            color: white;
+                            background-color: #0044cc;
+                            *background-color: #003bb3;
+                        }
+                        .buttona-primary {
+                            color: white;
+                            text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+                            background-color: #006ccc;
+                            background-image: -moz-linear-gradient(top, #08c, #04c);
+                            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
+                            background-image: -webkit-linear-gradient(top, #08c, #04c);
+                            background-image: -o-linear-gradient(top, #08c, #04c);
+                            background-image: linear-gradient(to bottom, #08c, #04c);
+                            background-repeat: repeat-x;
+                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF0088CC', endColorstr='#FF0044CC', GradientType=0);
+                            border-color: #0044cc #0044cc #002a80;
+                            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+                            *background-color: #0044cc;
+                            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+                        }
+                        .buttona {
+                            display: inline-block;
+                            *display: inline;
+                            *zoom: 1;
+                            padding: 4px 12px;
+                            margin-bottom: 0;
+                            font-size: 14px;
+                            line-height: 20px;
+                            text-align: center;
+                            vertical-align: middle;
+                            cursor: pointer;
+                            color: #333333;
+                            text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+                            background-color: whitesmoke;
+                            background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
+                            background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: -o-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+                            background-repeat: repeat-x;
+                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFE6E6E6', GradientType=0);
+                            border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+                            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+                            *background-color: #e6e6e6;
+                            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+                            border: 1px solid #cccccc;
+                            *border: 0;
+                            border-bottom-color: #b3b3b3;
+                            -webkit-border-radius: 4px;
+                            -moz-border-radius: 4px;
+                            border-radius: 4px;
+                            *margin-left: .3em;
+                            -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+                            -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+                            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+                        }
+                        .buttona{
+                            width:40%;
+                            color: white;
+                            
+                        }
+                        .buttona:hover{
+/*                            background-color: #0044cc;*/
+                        }
+                        .downemailbtn:hover, .downemailbtn:focus, .downemailbtn:active, .downemailbtn.active, .downemailbtn.disabled, .downemailbtn[disabled] {
+                            color: blue;
+                            background-color: #0044cc;
+                            *background-color: #003bb3;
+                        }
+                        .downemailbtn {
+                            color: white;
+                            text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+                            background-color: #006ccc;
+                            background-image: -moz-linear-gradient(top, #08c, #04c);
+                            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
+                            background-image: -webkit-linear-gradient(top, #08c, #04c);
+                            background-image: -o-linear-gradient(top, #08c, #04c);
+                            background-image: linear-gradient(to bottom, #08c, #04c);
+                            background-repeat: repeat-x;
+                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF0088CC', endColorstr='#FF0044CC', GradientType=0);
+                            border-color: #0044cc #0044cc #002a80;
+                            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+                            *background-color: #0044cc;
+                            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+                        }
+                        .downemailbtn {
+                            display: inline-block;
+                            *display: inline;
+                            *zoom: 1;
+                            padding: 4px 12px;
+                            margin-bottom: 0;
+                            font-size: 14px;
+                            line-height: 20px;
+                            text-align: center;
+                            vertical-align: middle;
+                            cursor: pointer;
+                            color: #333333;
+                            text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+                            background-color: whitesmoke;
+                            background-image: -moz-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e6e6e6));
+                            background-image: -webkit-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: -o-linear-gradient(top, #fff, #e6e6e6);
+                            background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+                            background-repeat: repeat-x;
+                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFE6E6E6', GradientType=0);
+                            border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+                            border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+                            *background-color: #e6e6e6;
+                            filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+                            border: 1px solid #cccccc;
+                            *border: 0;
+                            border-bottom-color: #b3b3b3;
+                            -webkit-border-radius: 4px;
+                            -moz-border-radius: 4px;
+                            border-radius: 4px;
+                            *margin-left: .3em;
+                            -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+                            -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+                            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+                        }
+                        .downemailbtn{
+                            width:40%;
+                            float:right;
+                        }
+                        .buttona:hover {
+                            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                            }
+                        .downemailbtn:hover{
+                            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+                            }
+                    </style>
+
+                <% end %>
+            </ul>
+        </li>
+    <% end %>
+</ul>
+
+<script>
+    $(".downbtn").click(function(){
+        $('.downurl').attr('href', $(this).prev().find("a").attr("href"))
+        $('.emailurl').attr('href', $(this).prev().find("a").attr("href"))
+    })
+    $(".downemailbtn").click(function(){
+        $('.downurl').attr('href', $(this).prev().prev().find("a").attr("href"))
+        $('.emailurl').attr('href', $(this).prev().prev().find("a").attr("href"))
+    })
+</script>

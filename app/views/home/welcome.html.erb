@@ -1,0 +1,119 @@
+<% title 'Welcome' %>
+
+<div class="page-header">
+    <h1>Welcome to Penetration Testing Web Interface</h1>
+
+    <div class="lead">
+        Please read through this page to get the information you need before you get started.
+    </div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+<style>
+
+#scrollbar
+{
+  width: 200px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /*set background color to transparent, to remove the blue line on top of the scrollbar*/
+  background-color: blue;
+}
+#innerScrollbar
+{
+  height: 1px;
+  line-height: 1px;
+  font-size: 1px;
+  visibility: hidden;
+  background-color: yellow;
+}
+
+article {
+  text-align: justify;
+  text-justify: inter-word;
+    box-shadow: 5px 5px 5px 5px #888888;
+    border-radius: 10px;
+  background-color: white;
+  border: 1px solid;
+  padding: 15px;
+}
+.material-icons {
+    vertical-align:-14%
+}
+
+.showmore {
+  font-size: 1.1em;
+  margin-top: -1.em;
+}
+
+.showmore .more, .showmore.show .dots {
+  display: none
+}
+
+.showmore.show .more {
+  display: inline
+}
+
+.showmore a {
+  cursor: pointer;
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  font-weight: bold;
+}
+</style>
+
+<div class="row-fluid">
+    <div class="span6">
+    	<article>
+            <div class="w3-container">
+                <center> <h2> <ul class="w3-ul"> <li> <i class="material-icons" style="font-size:36px;color:blue"> home </i> Home </li> </ul> </h2> </center>
+            </div>
+        	<h4 class="showmore"> The Home page serves as a very simple dashboard showing you <span class="dots">...</span><span class="more"> a basic graph with the progression of issues discovered per scan. It also shows notifications about things you're involved in (like scans, issues, profiles etc.) as well as a list with your own activities to help jog your memory. </span> <center> <a style="font-size:32px">&#x2B9B;</a> </center> </h3>
+    	</article>
+    </div>
+
+    <div class="span6">
+    	<article>
+        	<div class="w3-container">
+                <center> <h2> <ul class="w3-ul"> <li> <i class="material-icons" style="font-size:36px;color:red"> search </i> Scans </li> </ul> </h2> </center>
+            </div>
+        	<h4 class="showmore"> Allows you to start and manage scans, overview the status <span class="dots">...</span><span class="more"> /progress  of active ones and review finished ones. It also lets you share scans with other users and groups.</span> <center> <a style="font-size:32px">&#x2B9B;</a> </center> </h3>
+    	</article>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row-fluid">
+    <div class="span6">
+    	<article>
+        	<div class="w3-container">
+                <center> <h2> <ul class="w3-ul"> <li> <i class="material-icons" style="font-size:36px;color:purple"> &#9776; </i> Profiles </li> </ul> </h2> </center>
+            </div>
+        	<h4 class="showmore"> Allows you to create, manage and share scan configuration <span class="dots">...</span><span class="more"> profiles.</span> <center> <a style="font-size:32px">&#x2B9B;</a> </center> </h4>
+
+        </article>
+    </div>
+
+    <div class="span6">
+    	<article>
+        	<div class="w3-container">
+                <center> <h2> <ul class="w3-ul"> <li> <i class="material-icons" style="font-size:36px;color:green"> &#9879; </i> Users </li> </ul> </h2> </center>
+            </div>
+        	<h4 class="showmore"> Allows you to see your fellow users and even manage them, <span class="dots">...</span><span class="more"> provided you've got the required permissions.</span> <center> <a style="font-size:32px">&#x2B9B;</a> </center> </h4>
+        </article>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll(".showmore").forEach(function (p) {
+  p.querySelector("a").addEventListener("click", function () {
+    p.classList.toggle("show");
+    this.innerHTML = p.classList.contains("show") ? "&#x2B99;" : "&#x2B9B;";    
+  });
+});
+</script>

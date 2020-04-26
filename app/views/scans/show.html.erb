@@ -1,0 +1,218 @@
+<% title @scan.url %>
+<% breadcrumb_add 'Scans', scans_path %>
+
+<% add_to_sidebar do %>
+    <div id="scan-sidebar" class="hide">
+        <%= render partial: 'scan_sidebar' %>
+    </div>
+<% end %>
+
+<div id="scans">
+    <div class="page-header">
+        <% if @scan.owner != current_user %>
+            <span class="pull-right muted">
+                Started by <%= link_to @scan.owner, user_path( @scan.owner ) %>
+            </span>
+        <% end %>
+
+        <% purl = @scan.parsed_url %>
+        <h1>
+            <%= "#{purl.scheme}://#{purl.host}" %><%= ":#{purl.port}" if purl.port %><small><%= "#{purl.path}#{!purl.query.to_s.empty? ? "?#{purl.query}" : nil}" %></small>
+        </h1>
+
+        <div id="editable-description">
+            <%= render partial: 'editable_description' %>
+        </div>
+    </div>
+
+    <div class="visible-phone pull-left">
+        <%= render partial: 'shared/share_form', locals: { model: @scan } %>
+        <%= render partial: 'scan_group_form', locals: { scan: @scan } %>
+        <%= render partial: 'scan_schedule_form', locals: { scan: @scan } %>
+    </div>
+
+    <div class="visible-phone">
+        <a class="toggle-comments btn btn-small" data-toggle="collapse"
+           href="#comments">
+            <i class="icon-comments"></i>
+
+            <% if @scan.comments.any? %>
+                <span title="The scan has <%= pluralize @scan.comments.size, 'comment' %>."
+                      class="label total-comments-counter"><%= @scan.comments.size %></span>
+            <% end %>
+
+            <span title="The scan has new comments."
+                  class="hide label label-info new-comments-counter"></span>
+
+            Toggle comments
+        </a>
+
+        <hr/>
+    </div>
+
+    <div id="comments" class="accordion-body collapse">
+        <%= render partial: 'comments' %>
+    </div>
+
+    <div id="scan">
+      <% if @scan.suspended? %>
+          <%= render 'show_suspended' %>
+      <% else %>
+        <%= render @scan.active? ? 'show_active' : 'show_inactive' %>
+      <% end %>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span12" id='issues'>
+            <%= render partial: 'issues/table.html', locals: { url_method_type: :scan_path } %>
+        </div>
+    </div>
+
+</div>
+
+<% if Settings.scan_auto_refresh? %>
+    <div id="updater"
+         data-refresh-url="<%= scan_path( @scan, params.merge( format: :js ) ) %>"
+         data-refresh-rate="<%= HardSettings.scan_refresh_rate %>"
+         data-refresh-type="js">
+    </div>
+<% end %>
+
+
+
+<!–– After you press Email. -->
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="emailModalLabel">Send scan report </h4>
+      </div>
+      <div class="modal-body">
+        <p>Enter recipient's Email address</p>
+<form>
+<input type="text" class="email_address">
+</form>
+<a class="emailurl" href="#" style="display: none;"></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary send_email">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!–– After you press Send Email. -->
+<div class="modal fade" id="sentModal" tabindex="-1" role="dialog" aria-labelledby="sentModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+<h4 class="modal-title" id="sentModalLabel">   </h4>
+      </div>
+      <div class="modal-body">
+        <h4 align="center">Scan Report Email Sent</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!–– After you press Download. -->
+<div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="downloadModalLabel">File Download </h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <center>
+          <p>
+            Save to:
+            <!-- <input type="text"> -->
+            <!-- <input type="button" class="btn btn-default" id="openfileDialog" value = "Browse" onclick="openfileDialog();" /> -->
+            <a class="downurl" href="/scans/<%= @scan.id %>/report.html">
+            <button type="button" class="btn btn-primary">Browse</button>
+            </a>
+
+            <!-- Keyur Coded -->
+
+            <controlled-button id="changeDownloadPath" label="Change" end-justified>
+            <cr-button class aria-disabled="false" role="button" tabindex="0">
+            </cr-button>
+            <dom-if restamp style="display:none;">
+            <template>
+              #document-fragment
+            </template>
+            </dom-if>
+            </controlled-button>
+
+            <!-- Keyur Coded End -->
+
+          </p>
+          </center>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.send_email').click(function(){
+    email_address = $(".email_address").val()
+    emailurl = $('.emailurl').attr("href")
+    $.ajax({
+      type: "post",
+      url: '/scans/send_email',
+      data: {
+        file_url: `http://localhost:9292${emailurl}`,
+        email: email_address,
+      },
+      success: function(result) {
+        if(result.status == "ok"){
+          $('.modal-backdrop').click();
+          alert("send email successful!");
+        }
+      }
+    });
+  });
+</script>
+
+<style>
+.modal {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    z-index: 1050;
+    width: 400px;
+    margin-left: -280px;
+    background-color: white;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,0.3);
+    *border: 1px solid #999;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.3);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+    outline: none;
+}
+</style>

@@ -1,0 +1,43 @@
+<% title 'Scan Profile Management' %>
+
+<div class="page-header">
+    <h1>Scan Profile Management</h1>
+
+    <div class="lead">
+        Create, manage and view scan profiles.
+    </div>
+
+    <p class="muted">
+        Hint: It is best to use custom, per-scan, profiles when needing to specify special
+        headers or session cookies so that you'll be able to update them when
+        repeating scans.
+    </p>
+</div>
+
+<% if can? :edit, Profile %>
+<p>
+    <%= link_to new_profile_path, class: 'btn btn-primary' do %>
+        <i class="icon-plus"></i> New Profile
+    <% end %>
+
+<!-- Keyur Coded -->
+
+<!-- For importing the Scan_Profiles -->
+
+<!--         <a href="#profile-import" title="Import a profile"
+             role="button" class="btn btn-inverse" data-toggle="modal">
+            <i class="icon-upload-alt"></i> Import
+        </a> -->
+
+<!-- Keyur Coded End -->
+
+</p>
+<% end %>
+
+<%= render partial: 'import' %>
+
+<div id="profiles">
+    <div id="table">
+        <%= render partial: 'table', formats: :html, locals: { profiles: @profiles } %>
+    </div>
+</div>

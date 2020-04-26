@@ -1,0 +1,16 @@
+<div class="other-actions" style="float: left;">
+  <h2><%= @whitelist.name %></h2>
+</div>
+<div class="other-actions" style="float: right;">
+<% if current_user.admin? %>
+  <%= link_to edit_whitelist_path(@whitelist), class: "btn btn-small btn-warning" do -%><i class="icon-pencil"></i><% end %>
+  <%= link_to @whitelist, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-small btn-danger" do -%><i class="icon-trash"></i><% end %>
+<% end %>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <br>
+    <br>
+    <div style="color: black;font-size: 27px;margin-top: 60px;"><%= @whitelist.url %></div>
+  </div>
+</div>
