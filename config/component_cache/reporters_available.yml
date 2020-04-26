@@ -1,0 +1,132 @@
+---
+ap:
+  :name: AP
+  :description: Awesome prints a scan report hash.
+  :author: &1
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.1.1
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/ap.rb
+  :authors: *1
+html:
+  :name: HTML
+  :description: Exports the audit results as a compressed HTML report.
+  :content_type: application/zip
+  :author: &2
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.4.3
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.html.zip
+    value: 
+  - !ruby/object:Arachni::Component::Options::Bool
+    name: :skip_responses
+    required: false
+    description: Don't include the bodies of the HTTP responses of the issues in the
+      report -- will lead to a greatly decreased report file-size.
+    default: false
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/html.rb
+  :authors: *2
+  :extension: html.zip
+json:
+  :name: JSON
+  :description: Exports the audit results as a JSON (.json) file.
+  :content_type: application/json
+  :author: &3
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.1.3
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.json
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/json.rb
+  :authors: *3
+  :extension: json
+marshal:
+  :name: Marshal
+  :description: Exports the audit results as a Marshal (.marshal) file.
+  :content_type: application/x-marshal
+  :author: &4
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.1.1
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.marshal
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/marshal.rb
+  :authors: *4
+  :extension: marshal
+stdout:
+  :name: Stdout
+  :description: Prints the results to standard output.
+  :author: &5
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.3.3
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/stdout.rb
+  :authors: *5
+txt:
+  :name: Text
+  :description: Exports the audit results as a text (.txt) file.
+  :author: &6
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.2.1
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.txt
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/txt.rb
+  :authors: *6
+  :extension: txt
+xml:
+  :name: XML
+  :description: Exports the audit results as an XML (.xml) file.
+  :content_type: text/xml
+  :author: &7
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: 0.3.6
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.xml
+    value: 
+  - !ruby/object:Arachni::Component::Options::Bool
+    name: :skip_responses
+    required: false
+    description: Don't include the bodies of the HTTP responses of the issues in the
+      report -- will lead to a greatly decreased report file-size.
+    default: false
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/xml.rb
+  :authors: *7
+  :extension: xml
+yaml:
+  :name: YAML
+  :description: Exports the audit results as a YAML (.yaml) file.
+  :content_type: application/x-yaml
+  :author: &8
+  - Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+  :version: '0.2'
+  :options:
+  - !ruby/object:Arachni::Component::Options::String
+    name: :outfile
+    required: false
+    description: Where to save the report.
+    default: 2020-04-25 20_52_37 -0400.yaml
+    value: 
+  :path: C:/Users/keyur/OneDrive/Desktop/arachni-1.5.1-0.5.12-windows-x86_64/arachni-1.5.1-0.5.12-windows-x86_64/system/ruby/lib/ruby/gems/2.2.0/gems/arachni-1.5.1/components/reporters/yaml.rb
+  :authors: *8
+  :extension: yaml

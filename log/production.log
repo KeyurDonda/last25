@@ -1,0 +1,8 @@
+I, [2017-03-29T12:58:33.709150 #6424]  INFO -- : ScanManager#keep_schedule
+I, [2017-03-29T12:58:34.259093 #6424]  INFO -- : ScanManager#refresh
+I, [2017-03-29T12:58:34.326150 #6424]  INFO -- : DispatcherManager#refresh
+I, [2017-03-29T12:58:38.730094 #6424]  INFO -- : ScanManager#keep_schedule
+I, [2017-03-29T12:58:38.798903 #6424]  INFO -- : ScanManager#refresh
+I, [2017-03-29T12:58:39.330226 #6424]  INFO -- : DispatcherManager#refresh
+I, [2017-03-29T12:58:43.731733 #6424]  INFO -- : ScanManager#keep_schedule
+I, [2017-03-29T12:58:43.731733 #6424]  INFO -- : ScanManager#refresh
